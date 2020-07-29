@@ -56,7 +56,7 @@ class BottomTabs extends React.Component<IProps> {
         // componentDidUpdate: 只有 PROPS 发生变化,就会执行这个周期.
         const { navigation, route } = this.props;
         navigation.setOptions({
-            title: getHeaderTitle(route),
+            title: getHeaderTitle(route), 
         });
     }
 
