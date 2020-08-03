@@ -1,4 +1,4 @@
-import { RootStackNavigation, RootStackParamList } from '@/navigator/one';
+import { RootStackNavigation, RootStackParamList } from '@/navigator';
 import { RouteProp } from '@react-navigation/native';
 import React from 'react';
 import { Button, Text, View } from 'react-native';

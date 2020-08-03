@@ -308,7 +308,7 @@ PODS:
     - React
   - RNScreens (2.9.0):
     - React
-  - RNVectorIcons (7.0.0):
+  - RNSVG (12.1.0):
     - React
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -367,7 +367,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
-  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -448,8 +448,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
-  RNVectorIcons:
-    :path: "../node_modules/react-native-vector-icons"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -481,7 +481,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 0e0cb4e170ca72d4bb1179843d08dcbea3d100ac
   React-jsinspector: fc661eff8edbfb7e22119382c13f33bcadde0f3c
   react-native-config: 54f023214af396f21ff0a9e0fed22620d676c8a1
-  react-native-safe-area-context: 4c3249e4840225c61fcd215b136af0a737bccb79
+  react-native-safe-area-context: 344b969c45af3d8464d36e8dea264942992ef033
   React-RCTActionSheet: aadd91a1d6cbfae50dd41f140004f816e9e47ade
   React-RCTAnimation: 7fa2ef6c0ef1e3f0b7d2261c827ec94412deb5e6
   React-RCTBlob: ccbbc70295aee3a76a70323b48f63fb7a7fcffd6
@@ -492,14 +492,14 @@ SPEC CHECKSUMS:
   React-RCTText: ba503bf4cce41881ca258ba789c33e017955efdd
   React-RCTVibration: 77ab1cf4a5eb854b88ad5ed3e9d8509ed124525e
   ReactCommon: f63556ee9e41e9802257228237e5e660451a03cf
-  RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
+  RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
   RNReanimated: c2bb7438b57a3d987bb2e4e6e4bca94787e30b02
   RNScreens: c526239bbe0e957b988dacc8d75ac94ec9cb19da
-  RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
+  RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   Yoga: 7d2edc5b410474191962e6dee88ee67f9b328b6b
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 8ad26fedc37a0dda51116be1fa3ea14d2a76ac8d
+PODFILE CHECKSUM: f90cffb0131d6745edc70fccdad7bd5c261e1d58
 
 COCOAPODS: 1.9.1

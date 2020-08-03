@@ -1,48 +1,47 @@
+import IconFont from '@/assets/iconfont';
+import { RootStackNavigation, RootStackParamList } from '@/navigator';
 import Account from '@/pages/Account';
 import Found from '@/pages/Found';
-import Home from '@/pages/Home';
 import Listen from '@/pages/Listen';
-import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { getFocusedRouteNameFromRoute, RouteProp, TabNavigationState } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { RouteProp, TabNavigationState } from '@react-navigation/native';
 import React from 'react';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import { RootStackNavigation } from '.';
+import HomeTabs from './HomeTabs';
 
 
-
-//
-export type BottomTabsParamList = {
-	Home: undefined;
+// import { StackNavigationProp} from '@react-navigation/Stack';
+export type BottomTabParamList = {
+	HomeTabs: undefined;
 	Listen: undefined;
 	Found: undefined;
 	Account: undefined;
 };
+ 
+const Tab = createBottomTabNavigator<BottomTabParamList>();
 
-const Tab = createBottomTabNavigator<BottomTabsParamList>();
+// 定义一个接口, 来接收 2 个属性: route navigation
 
-// type BottomTabsNavigationProp = BottomTabNavigationProp<BottomTabsParamList>;
-
-// 路由
-type Route = RouteProp<BottomTabsParamList, 'Home'> & {
+// & 并且加上内部的.  state就是整个导航器内部的状态.  这里用的是 RootStackParamList , BottomTabs
+type Route = RouteProp<RootStackParamList, 'BottomTabs'> & {
 	state?: TabNavigationState;
 };
 
-
-interface Props {
+interface IProps {
 	navigation: RootStackNavigation;
 	route: Route;
 }
 
-// 视频讲的方法1
+// 写个方法
+// 如果没有的话,route.params.screen  || 'Home',  一般走不到这里来,找不到,就指定到 Home,
+// 这时要把  RootStackParamList 中的 BottomTabs 的 属性值改成 {screen?: string;}
+
 function getHeaderTitle(route: Route) {
 	const routeName = route.state
 		? route.state.routes[route.state.index].name
-		: route.params?.['screen'] || 'Home'; // 直接screen 报错
+		: route.params?.screen || 'HomeTabs'; // 直接screen 报错
 	switch (routeName) {
-		case 'Home':
+		case 'HomeTabs':
 			return '首页';
 		case 'Listen':
 			return '我听';
@@ -55,34 +54,36 @@ function getHeaderTitle(route: Route) {
 	}
 }
 
-
-class BottomTabs extends React.Component<Props> {
+class BottomTabs extends React.Component<IProps> {
 	componentDidUpdate() {
 		// componentDidUpdate: 只有 PROPS 发生变化,就会执行这个周期.
 		const { navigation, route } = this.props;
 		navigation.setOptions({
-			title: getHeaderTitle(route),
+			headerTitle: getHeaderTitle(route),
 		});
 	}
 
 	render() {
 		return (
+			// activeTintColor='#f86442'
 			<Tab.Navigator
-				initialRouteName="Home"
+				// initialRouteName="HomeTabs"
 				tabBarOptions={{
-					// activeColor: '#f0edf6',
-					activeTintColor: '#f86442',
-					inactiveBackgroundColor: '#eee', // 背景色
-					activeBackgroundColor: '#eee', // 背景色
+					inactiveTintColor: '#333', // 初始色
+					activeTintColor: '#f86442',// 选中色
 				}}
 			>
 				<Tab.Screen
-					name="Home"
-					component={Home}
+					name="HomeTabs"
+					component={HomeTabs}
 					options={{
 						tabBarLabel: '首页',
-						tabBarIcon: ({ color }) => (
-							<AntDesign name={'home'} color={color} size={30} />
+						tabBarIcon: ({ color, size }) => (
+							<IconFont
+								name="daohangshouye"
+								color={color}
+								size={size}
+							/>
 						),
 					}}
 				/>
@@ -92,11 +93,7 @@ class BottomTabs extends React.Component<Props> {
 					options={{
 						tabBarLabel: '我听',
 						tabBarIcon: ({ color }) => (
-							<MaterialCommunityIcons
-								name={'account-music'}
-								color={color}
-								size={36}
-							/>
+							<IconFont name="tingshu1" color={color} size={32} />
 						),
 					}}
 				/>
@@ -106,26 +103,20 @@ class BottomTabs extends React.Component<Props> {
 					options={{
 						tabBarLabel: '发现',
 						tabBarIcon: ({ color }) => (
-							<MaterialIcons
-								name={'find-in-page'}
-								color={color}
-								size={34}
-							/>
+							<IconFont name="faxian" color={color} size={26} />
 						),
 					}}
 				/>
 				<Tab.Screen
 					name="Account"
 					component={Account}
+					
 					options={{
-						tabBarLabel: '账户',
+						tabBarLabel: '我的',
 						tabBarIcon: ({ color }) => (
-							<MaterialCommunityIcons
-								name={'account'}
-								color={color}
-								size={36}
-							/>
-						),
+							<IconFont name="ziyuan" color={color}  size={24} />
+						)
+						
 					}}
 				/>
 			</Tab.Navigator>

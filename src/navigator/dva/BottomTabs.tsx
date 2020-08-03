@@ -1,8 +1,8 @@
-import { RootStackNavigation } from '@/navigator/one';
-import Account from '@/pages/one/Account';
-import Found from '@/pages/one/Found';
-import Home from '@/pages/one/Home';
-import Listen from '@/pages/one/Listen';
+import { RootStackNavigation } from '@/navigator/dva';
+import Account from '@/pages/dva/Account';
+import Found from '@/pages/dva/Found';
+import Home from '@/pages/dva/Home';
+import Listen from '@/pages/dva/Listen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { RouteProp, TabNavigationState } from '@react-navigation/native';
 import React from 'react';

@@ -10,7 +10,7 @@ target 'ximalaya' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  target 'ximalayaTests' do
+  target 'ximalayaTests' dor
     inherit! :complete
     # Pods for testing
   end

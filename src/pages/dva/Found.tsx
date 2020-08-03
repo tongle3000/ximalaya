@@ -1,4 +1,4 @@
-import { RootStackNavigation } from '@/navigator/one';
+import { RootStackNavigation } from '@/navigator';
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 
@@ -6,7 +6,7 @@ type IProps = {
     navigation: RootStackNavigation;
 };
 
-class Listen extends React.Component<IProps> {
+class Found extends React.Component<IProps> {
     onPress = () => {
         const { navigation } = this.props;
         navigation.navigate('Detail', {
@@ -17,11 +17,11 @@ class Listen extends React.Component<IProps> {
     render() {
         return (
             <View>
-                <Text>Listen</Text>
+                <Text>Found</Text>
                 <Button title="跳转到详情页1" onPress={this.onPress} />
             </View>
         );
     }
 }
 
-export default Listen;
+export default Found;

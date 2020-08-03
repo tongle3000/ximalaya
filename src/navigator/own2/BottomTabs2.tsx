@@ -1,7 +1,7 @@
-import Account from '@/pages/Account';
-import Found from '@/pages/Found';
-import Home from '@/pages/Home';
-import Listen from '@/pages/Listen';
+import Account from '@/pages/own2/Account';
+import Found from '@/pages/own2/Found';
+import Home from '@/pages/own2/Home';
+import Listen from '@/pages/own2/Listen';
 import {
     BottomTabNavigationOptions,
     BottomTabNavigationProp,
@@ -16,9 +16,6 @@ import {
     TabNavigationState,
 } from '@react-navigation/native';
 import React from 'react';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 // import { Props } from '@/navigator';
 //
@@ -121,10 +118,6 @@ function BottomTabs({ navigation, route }: Props) {
 				component={Home}
 				options={{
 					tabBarLabel: '首页',
-
-					tabBarIcon: ({ color }) => (
-						<AntDesign name={'home'} color={color} size={30} />
-					),
 				}}
 			/>
 			<Tab.Screen
@@ -132,13 +125,6 @@ function BottomTabs({ navigation, route }: Props) {
 				component={Listen}
 				options={{
 					tabBarLabel: '我听',
-					tabBarIcon: ({ color }) => (
-						<MaterialCommunityIcons
-							name={'account-music'}
-							color={color}
-							size={36}
-						/>
-					),
 				}}
 			/>
 			<Tab.Screen
@@ -146,13 +132,7 @@ function BottomTabs({ navigation, route }: Props) {
 				component={Found}
 				options={{
 					tabBarLabel: '发现',
-					tabBarIcon: ({ color }) => (
-						<MaterialIcons
-							name={'find-in-page'}
-							color={color}
-							size={34}
-						/>
-					),
+					
 				}}
 			/>
 			<Tab.Screen
@@ -160,13 +140,7 @@ function BottomTabs({ navigation, route }: Props) {
 				component={Account}
 				options={{
 					tabBarLabel: '账户',
-					tabBarIcon: ({ color }) => (
-						<MaterialCommunityIcons
-							name={'account'}
-							color={color}
-							size={36}
-						/>
-					),
+					
 				}}
 			/>
 		</Tab.Navigator>

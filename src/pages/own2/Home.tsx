@@ -1,4 +1,4 @@
-import { Props } from '@/navigator';
+import { Props } from '@/navigator/own2';
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 

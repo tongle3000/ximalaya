@@ -1,4 +1,4 @@
-import { RootStackNavigation } from '@/navigator/one';
+import { RootStackNavigation } from '@/navigator';
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 

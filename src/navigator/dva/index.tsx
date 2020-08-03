@@ -1,5 +1,5 @@
-import BottomTabs from '@/navigator/one/BottomTabs';
-import Detail from '@/pages/one/Detail';
+import BottomTabs from '@/navigator/BottomTabs';
+import Detail from '@/pages/Detail';
 import { NavigationContainer } from '@react-navigation/native';
 import {
     CardStyleInterpolators,
@@ -60,6 +60,7 @@ class Navigator extends React.Component {
 
                         name="BottomTabs"
                         component={BottomTabs}
+                        options={{ title: '首页' }}
                     />
                     <Stack.Screen
                         options={{ title: '详情页' }}
