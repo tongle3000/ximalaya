@@ -44,27 +44,6 @@ class Home extends React.Component<IProps> {
         });
     };
 
-    // 加法 运算 方法.
-    // handleAdd = ()=> {
-    //     const {dispatch} = this.props;
-    //     dispatch({
-    //         type: 'home/add', // 这里是找到 dva.ts 里的 HomeModel 里的 add() 方法
-    //         payload: {        // 第二个参数
-    //             num: 10,      // 每次加 10
-    //         }
-    //     })
-    // }
-
-    // // 异步加:   点了之后,会过段时间处理,  中间等的时间长的话,可以提示下用户 "正在加载..."
-    // asyncAdd= () => {
-    //     const {dispatch} = this.props;
-    //     dispatch({
-    //         type: 'home/asyncAdd', // 这里是找到 dva.ts 里的 HomeModel 里的 add() 方法
-    //         payload: {        // 第二个参数
-    //             num: 3,      // 每次加 3
-    //         }
-    //     })
-    // }
     render() {
         const {carousels} = this.props;   // 从 dva home 里取 num
         return (

@@ -1,5 +1,6 @@
 /**
- * 轮播图
+ * 轮播图 
+ * 没有读取 models 里的数据, 在本页写死的
  */
 import { hp, viewportWidth, wp } from '@/utils';
 import React from 'react';
@@ -50,7 +51,7 @@ class Carousel extends React.Component {
 			<View style={styles.paginationWrapper}>
 				<Pagination
 					activeDotIndex={activeSlide} // ①显示的圆点: 当前显示的哪张图的圆点.
-                    dotsLength={data.length} // 圆点个数
+                    dotsLength = {4} // 圆点个数
                     inactiveDotScale={0.7} // 不是当前的显示圆点 大小的比例放大一点点
 					inactiveDotOpacity={0.4} // 不是当前的显示圆点 透明度
 					// styles

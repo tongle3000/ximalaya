@@ -12,8 +12,8 @@ interface HomeState {
 }
 
 // 声明接口
-interface HomeModel extends Model {
-    namespace: 'home'; // namespace: string;
+interface HomeNumModel extends Model {
+    namespace: 'homeNum'; // namespace: string;
     
 	state: {
 		//state?: any;
@@ -37,8 +37,8 @@ interface HomeModel extends Model {
 // 下面 state 报 "HomeState | undefined"
 // 这里可以把 state 提出去,顶一个初始的 state
 const initialState = {
-	num: 0,
-	loading: false, // 添加个加载状态, 默认是 false
+	num: 1,
+	// loading: false, // 添加个加载状态, 默认是 false
 }
 
 // 延迟函数, 模拟异步的.
@@ -48,11 +48,9 @@ function delay(timeout: number) {
 	})
 }
 
-const homeModel: HomeModel = { // 报"在此处声明了 "effects" 错误, 先把上面effects 注释了, effects是异步,先做同步的.
-	namespace: 'home',
-	state: {
-		num: 1,
-	},
+const homeNumModel: HomeNumModel = { // 报"在此处声明了 "effects" 错误, 先把上面effects 注释了, effects是异步,先做同步的.
+	namespace: 'homeNum',
+	state: initialState,
 	reducers: {
 		add(state=initialState, { payload /* ,type */ }) {
             // dva 已经帮我们处理了 action, 可以通过结构的方法直接取到; 如果需要 type 可以写上
@@ -77,4 +75,4 @@ const homeModel: HomeModel = { // 报"在此处声明了 "effects" 错误, 先�
 	},
 };
 
-export default homeModel;
+export default homeNumModel;

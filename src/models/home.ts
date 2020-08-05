@@ -11,7 +11,7 @@ const CAROUSEL_URL = '/mock/11/bear/carousel'; // ② 加入动态数据 yapi; �
 const Guess_URL = '/mock/11/bear/guess';
 
 // ② 猜你喜欢模块
-export interface IGUESS {
+export interface IGuess {
 	id: string;
 	image: string;
 	title: string;
@@ -27,7 +27,7 @@ export interface ICarousel {
 // Reducer
 interface HomeState {
 	carousels: ICarousel[]; // ③ 加入动态数据 yapi; 第四步,定义这个的类型 包括哪些属性.
-	guess: IGUESS[]; // ③ 猜你喜欢模块
+	guess: IGuess[]; // ③ 猜你喜欢模块
 }
 
 // 声明接口

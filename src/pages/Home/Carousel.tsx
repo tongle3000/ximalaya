@@ -1,31 +1,21 @@
 /**
  * 轮播图
+ * 
+ * import { ICarousel } from '@/models/home';
+ * 
+ * 读取的是 home 里的 YApi 里的 图片 动态 数据.
+ * 
  */
 import { ICarousel } from '@/models/home';
 import { hp, viewportWidth, wp } from '@/utils';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Image } from 'react-native';
 import SnapCarousel, { AdditionalParallaxProps, Pagination, ParallaxImage } from 'react-native-snap-carousel';
 
 // ⑩③ 加入动态数据 yapi; 定义一个接口 IProps, 下面的 data 可以不要了
 interface IProps {
 	data: ICarousel[];
 }
-
-/**
- * // import { Image } from 'react-native';
- * // 如果是用 Image 组件 必须是在react-native 导入; 下面是优化换成了 Carousel 视差组件 视差图片 ParallaxImage
- */
-
-// 图片
-// const images = require('../../assets/carousel/001.jpg');
-// const data = [
-// 	'https://file07.16sucai.com/2019/1112/775824cf3615639b7bd67beec87ca5aa.jpg',
-// 	'https://file07.16sucai.com/2020/0713/bf5ee490cb0872cf5b58230b56c0c9c0.jpg',
-// 	'https://file06.16sucai.com/2016/0120/a6ad792c4f0bf314b49627d1606a3abf.jpg',
-// 	'https://file06.16sucai.com/2016/0120/869c21d28f6012ecca97911271459787.jpg',
-// ];
 
 // 轮播图的宽度:
 const sliderWidth = viewportWidth;

@@ -2,6 +2,9 @@
   package="com.ximalaya">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 下面 2 个 uses 自己添加的 网上搜索的 -->
+    <!-- <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" /> -->
 
     <application
       android:name=".MainApplication"

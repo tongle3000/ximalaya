@@ -1,8 +1,16 @@
+/**
+ * import { IGuess } from '@/models/home';
+ * 
+ * 读取的是 models/home  YApi 里的动态数据 type: 'home/fetchGuess'
+ */
+import Touchable from '@/components/Touchable';
 import { RootState } from '@/models';
+import { IGuess } from '@/models/home';
 import React from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'react-native';
 import { connect, ConnectedProps } from 'react-redux';
+
 
 const mapStateToProps = ({ home }: RootState) => {
 	return {
@@ -31,13 +39,19 @@ class Guess extends React.Component<ModelState> {
 
 	// 返回的是个组件, 这里使用 View, 图片必须制定宽高.
 	// }
-	renderItem = ({ item }) => {
+	renderItem = ({item}: {item:IGuess}) => {
+        // const {item} = dada;
 		return (
-			<View style ={styles.item}>
+			// <TouchableOpacity style ={styles.item} onPress={() => {alert('dian')}}>
+            //     <Image source = {{uri: item.image}} style={ styles.image} /> 
+			// 	<Text numberOfLines={2}>{item.title}</Text>
+            //     {/* numberOfLines={2} 最多显示 2 行. */}
+            // </TouchableOpacity>
+            <Touchable style ={styles.item} >
                 <Image source = {{uri: item.image}} style={ styles.image} /> 
 				<Text numberOfLines={2}>{item.title}</Text>
                 {/* numberOfLines={2} 最多显示 2 行. */}
-			</View>
+			</Touchable>
 		);
 	};
 
@@ -52,7 +66,6 @@ class Guess extends React.Component<ModelState> {
                     data={guess} 
                     renderItem={this.renderItem} 
                     numColumns={3} // 3 列
-                    
                 />
 			</View>
 		);

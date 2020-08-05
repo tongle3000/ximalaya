@@ -41,6 +41,18 @@ static void InitializeFlipper(UIApplication *application) {
                                                    moduleName:@"ximalaya"
                                             initialProperties:nil];
 
+
+  // 下面这块 自己加的(网上);  
+  // 苹果 IOS 报: WARN  RCTBridge required dispatch_sync to load RCTDevLoadingView. This may lead to deadlocks
+  #if RCT_DEV
+    [bridge moduleForClass:[RCTDevLoadingView class]];
+  #endif
+    RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+                                                    moduleName:@"ximalaya"
+                                              initialProperties:nil];
+
+
+
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f
                                                     green:1.0f
                                                      blue:1.0f

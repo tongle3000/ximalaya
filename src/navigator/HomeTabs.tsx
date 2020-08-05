@@ -1,4 +1,5 @@
 import Home from '@/pages/Home';
+import indexNum from '@/pages/Home/indexNum';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import React from 'react';
 
@@ -26,8 +27,8 @@ function HomeTabs() {
 			}}
 		>
 			<Tab.Screen name="Home" component={Home} options={{ tabBarLabel:'推荐'}} />
-			<Tab.Screen name="Home2" component={Home} />
-			<Tab.Screen name="Home3" component={Home} />
+			<Tab.Screen name="Home2" component={indexNum} />
+			<Tab.Screen name="Home3" component={indexNum} />
 		</Tab.Navigator>
 	);
 }
