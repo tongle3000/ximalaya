@@ -50,7 +50,7 @@ class homeNum extends React.Component<IProps> {
         dispatch({
             type: 'homeNum/asyncAdd', // 这里是找到 dva.ts 里的 HomeModel 里的 add() 方法
             payload: {        // 第二个参数
-                num: 3,      // 每次加 3
+                num: 5,      // 每次加 3
             }
         })
     }

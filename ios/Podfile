@@ -4,13 +4,17 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '10.0'
 
 target 'ximalaya' do
+  # Pods for ximalaya
+  
+
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  
+  
 
-  target 'ximalayaTests' dor
+  target 'ximalayaTests' do
     inherit! :complete
     # Pods for testing
   end

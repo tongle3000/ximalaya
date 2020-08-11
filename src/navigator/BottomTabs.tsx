@@ -36,10 +36,26 @@ interface IProps {
 // 如果没有的话,route.params.screen  || 'Home',  一般走不到这里来,找不到,就指定到 Home,
 // 这时要把  RootStackParamList 中的 BottomTabs 的 属性值改成 {screen?: string;}
 
-function getHeaderTitle(route: Route) {
-	const routeName = route.state
-		? route.state.routes[route.state.index].name
-		: route.params?.screen || 'HomeTabs'; // 直接screen 报错
+// function getHeaderTitle(route: Route) {
+// 	const routeName = route.state
+// 		? route.state.routes[route.state.index].name
+// 		: route.params?.screen || 'HomeTabs'; // 直接screen 报错
+// 	switch (routeName) {
+// 		case 'HomeTabs':
+// 			return '首页';
+// 		case 'Listen':
+// 			return '我听';
+// 		case 'Found':
+// 			return '发现';
+// 		case 'Account':
+// 			return '账户';
+// 		default:
+// 			return '首页';
+// 	}
+// }
+
+// 1.修改首页顶部; 上面代码块改为:
+function getHeaderTitle(routeName: string) {
 	switch (routeName) {
 		case 'HomeTabs':
 			return '首页';
@@ -54,13 +70,40 @@ function getHeaderTitle(route: Route) {
 	}
 }
 
+
 class BottomTabs extends React.Component<IProps> {
+
+	// 3.修改首页顶部; 必须加 componentDidMount, 不加的话, APP 加载第一次时,顶部头还在.
+	componentDidMount() {
+		this.setOptions(); // 6.修改首页顶部;
+	}
+
 	componentDidUpdate() {
+		this.setOptions(); // 6.修改首页顶部;
+	}
+
+	// 5.修改首页顶部; 控制头部显示 函数.
+	setOptions = () => {
+		// 4.修改首页顶部; 把这整块代码 放在一个方法里, 以便这 2 个生命周期函数componentDidMount,componentDidUpdate都调用.
 		// componentDidUpdate: 只有 PROPS 发生变化,就会执行这个周期.
 		const { navigation, route } = this.props;
-		navigation.setOptions({
-			headerTitle: getHeaderTitle(route),
-		});
+
+		// 2.修改首页顶部; 加入下面路由
+		const routeName = route.state
+		? route.state.routes[route.state.index].name
+		: route.params?.screen || 'HomeTabs'; 
+
+		if(routeName === 'HomeTabs') {
+			navigation.setOptions({
+				headerTransparent: true, // 透明
+				headerTitle: '', // 赋空值
+			});
+		} else {
+			navigation.setOptions({
+				headerTransparent: false, // 这个 false 必须加
+				headerTitle: getHeaderTitle(routeName),
+			});
+		}
 	}
 
 	render() {
@@ -80,7 +123,7 @@ class BottomTabs extends React.Component<IProps> {
 						tabBarLabel: '首页',
 						tabBarIcon: ({ color, size }) => (
 							<IconFont
-								name="daohangshouye"
+								name="icon-daohangshouye"
 								color={color}
 								size={size}
 							/>
@@ -93,7 +136,7 @@ class BottomTabs extends React.Component<IProps> {
 					options={{
 						tabBarLabel: '我听',
 						tabBarIcon: ({ color }) => (
-							<IconFont name="tingshu1" color={color} size={32} />
+							<IconFont name="icon-tingshu1" color={color} size={32} />
 						),
 					}}
 				/>
@@ -103,7 +146,7 @@ class BottomTabs extends React.Component<IProps> {
 					options={{
 						tabBarLabel: '发现',
 						tabBarIcon: ({ color }) => (
-							<IconFont name="faxian" color={color} size={26} />
+							<IconFont name="icon-faxian" color={color} size={26} />
 						),
 					}}
 				/>
@@ -114,7 +157,7 @@ class BottomTabs extends React.Component<IProps> {
 					options={{
 						tabBarLabel: '我的',
 						tabBarIcon: ({ color }) => (
-							<IconFont name="ziyuan" color={color}  size={24} />
+							<IconFont name="icon-ziyuan" color={color}  size={24} />
 						)
 						
 					}}

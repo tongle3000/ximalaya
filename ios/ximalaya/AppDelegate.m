@@ -30,10 +30,10 @@ static void InitializeFlipper(UIApplication *application) {
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application
-    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-#ifdef FB_SONARKIT_ENABLED
-  InitializeFlipper(application);
-#endif
+  didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  #ifdef FB_SONARKIT_ENABLED
+    InitializeFlipper(application);
+  #endif
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self
                                             launchOptions:launchOptions];
@@ -48,8 +48,8 @@ static void InitializeFlipper(UIApplication *application) {
     [bridge moduleForClass:[RCTDevLoadingView class]];
   #endif
     RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                    moduleName:@"ximalaya"
-                                              initialProperties:nil];
+                                                      moduleName:@"ximalaya"
+                                                  initialProperties:nil];     
 
 
 
@@ -66,15 +66,17 @@ static void InitializeFlipper(UIApplication *application) {
   return YES;
 }
 
+
+
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge {
-#ifdef FB_SONARKIT_ENABLED
-  return
-      [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"
-                                                     fallbackResource:nil];
-#else
-  return [[NSBundle mainBundle] URLForResource:@"main"
-                                 withExtension:@"jsbundle"];
-#endif
+  #ifdef FB_SONARKIT_ENABLED
+    return
+        [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"
+                                                      fallbackResource:nil];
+  #else
+    return [[NSBundle mainBundle] URLForResource:@"main"
+                                  withExtension:@"jsbundle"];
+  #endif
 }
 
 @end

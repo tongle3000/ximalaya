@@ -20,10 +20,10 @@ interface IProps {
 // 轮播图的宽度:
 const sliderWidth = viewportWidth;
 
-const sideWidth = wp(94); // 图片宽度
-const sideHeight = hp(26); // 图片高度
+const sideWidth = wp(92); // 图片宽度
+const sideHeight = hp(20); // 图片高度
 
-const itemWidth = wp(94) + wp(3) * 2; // 滚动的整个 item宽度= 图片宽度 + 2 边边距
+const itemWidth = wp(92) + wp(4) * 2; // 滚动的整个 item宽度= 图片宽度 + 2 边边距
 
 class Carousel extends React.Component<IProps> {
 	// ⑩④ 加入动态数据 yapi; IProps做为泛型,传进来.
@@ -111,6 +111,8 @@ const styles = StyleSheet.create({
 		marginLeft: 'auto',
 		marginRight: 'auto',
 		borderRadius: 8,
+		marginBottom:6,
+		marginTop:12,
 	},
 	// 包圆点的块,跟图片一样大的区域
 	paginationWrapper: {

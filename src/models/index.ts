@@ -5,7 +5,7 @@ import homeNum from './homeNum';
 
 /**
  * YApi 动态数据
- * import home from './home_yapi';
+ * import home from './home';
  */
 
 /**

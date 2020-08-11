@@ -17,7 +17,7 @@ export default class extends React.Component {
 				<StatusBar
 					backgroundColor="transparent" // 背景色透明
 					barStyle="dark-content" // 深色
-					translucent // 半透明
+					translucent // 半透明 
 				/> 
 			</Provider>
 		);

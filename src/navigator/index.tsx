@@ -6,6 +6,7 @@ import {
     createStackNavigator,
     HeaderStyleInterpolators,
     StackNavigationProp,
+    TransitionPresets,
 } from '@react-navigation/stack';
 import React from 'react';
 import { Platform, StatusBar, StyleSheet } from 'react-native';
@@ -67,7 +68,7 @@ class Navigator extends React.Component {
                         options={{ title:'首页',}}
                     />
                     <Stack.Screen
-                        options={{ title: '详情页' }}
+                        options={{ title: '详情页', headerShown: false, }}
                         name="Detail"
                         component={Detail}
                     />
