@@ -1,3 +1,4 @@
+import IconFont from '@/assets/iconfont';
 import Home from '@/pages/Home';
 import indexNum from '@/pages/Home/indexNum';
 import TopTabBarWrapper from '@/pages/views/TopTabBarWrapper';
@@ -18,26 +19,30 @@ class HomeTabs extends React.PureComponent {
 	render() {
 		return (
 			<Tab.Navigator
+				initialRouteName='Home'
 				lazy // 异步加载除第一个页面外的其他页面.  lazy={true}  可以省略成 lazy
 				tabBar={this.renderTabBar} // 7.修改首页顶部; 这个可以返回一个组件.
 				sceneContainerStyle={styles.sceneContainer} // 为了taby实现渐变色, 这里设置透明.
+				
 				tabBarOptions={{
 					scrollEnabled: true, // 超过是否允许滚动
 					tabStyle: {
-						width: 60, // TAB宽度
-						
+						width: 50, // TAB宽度
+						padding:0,
 					},
+					style: { backgroundColor: 'powderblue' },
 					indicatorStyle:{ // 这个是下面滚动线条的样式.
-						height: 4,
+						height: 3,
 						width: 20,
-						marginLeft: 30,
+						marginLeft: 16,
 						borderRadius:2,
 						backgroundColor: '#f86442'
 					},
 					activeTintColor:'#f86442',
 					inactiveTintColor:'#333',
-					
-					
+					labelStyle:{fontSize:16},
+					// showIcon: true,
+					// iconStyle:{}
 				}}
 			>
 				<Tab.Screen name="Home" component={Home} options={{ tabBarLabel:'推荐',}}  />
@@ -47,6 +52,7 @@ class HomeTabs extends React.PureComponent {
 				<Tab.Screen name="儿童" component={indexNum} />
 				<Tab.Screen name="播客" component={indexNum} />
 				<Tab.Screen name="杭州" component={indexNum} />
+				<Tab.Screen name="相声" component={indexNum} />
 			</Tab.Navigator>
 		);
 	}

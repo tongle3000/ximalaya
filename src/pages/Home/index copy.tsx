@@ -2,20 +2,10 @@ import { RootState } from '@/models';
 import { IChannel } from '@/models/home';
 import { RootStackNavigation } from '@/navigator';
 import React from 'react';
-import {
-    Button,
-    FlatList,
-    ListRenderItemInfo,
-    NativeScrollEvent,
-    NativeSyntheticEvent,
-    ScrollView,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
-import { connect, ConnectedProps, createDispatchHook } from 'react-redux';
+import { Button, FlatList, ListRenderItemInfo, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { connect, ConnectedProps } from 'react-redux';
 
-import Carousel, { slideHeight } from './Carousel';
+import Carousel from './Carousel';
 import ChannelItem from './ChannelItem';
 import Guess from './Guess';
 
@@ -26,7 +16,7 @@ const mapStateToProps = ({ home, loading }: RootState) => ({
 	loading: loading.effects['home/fetchChannels'], // 跟异步操作的 type 值是一样的
 	channels: home.channels, // 7 首页列表
 	hasMore: home.pagination.hasMore, // 17.上拉加载更多; 引入,下面加载的异步操作,要判断是否能加载跟多.
-	gradientVisible: home.gradientVisible, // 6.设置滚动上去渐变背景色消失; gradientVisible要再 Models -> home.ts 定义个默认值.
+
 });
 
 // connect 帮我们把 models 里定义的 state 映射到 这个页面来.
@@ -40,20 +30,19 @@ interface IProps extends ModelState {
 
 // 3.下拉刷新;  声明个接口,下面 Home 组件引入.
 interface IState {
-	refreshing: boolean;
+	refreshing:boolean;
 }
 
 // type IProps = {
 //     navigation: RootStackNavigation;
 // };
 
-class Home extends React.Component<IProps, IState> {
-	// 4.下拉刷新;
+class Home extends React.Component<IProps, IState> { // 4.下拉刷新; 
 
 	// 5.下拉刷新; 先在 state 里给 refreshing 定义个默认值
 	state = {
 		refreshing: false,
-	};
+	}
 
 	// ⑩ 加入动态数据 yapi;
 	componentDidMount() {
@@ -66,34 +55,35 @@ class Home extends React.Component<IProps, IState> {
 			type: 'home/fetchChannels',
 		});
 	}
-	// 6.加链接;  onPress方法要改.
-	onPress = (data: IChannel) => {
-		console.log(data);
-		// console.log(data); 打印: {"id": "dd4cE8Fd-cA2B-CC70-88fA-B8Acf6f51272", "image": "http://39.105.213.120/thumbnail/19.jpg", "played": 597, "playing": 178, "remark": "ullamco", "title": "起明目或写适"}
-	};
+    // 6.加链接;  onPress方法要改.
+    onPress = (data: IChannel) => {
+        console.log(data);
+        // console.log(data); 打印: {"id": "dd4cE8Fd-cA2B-CC70-88fA-B8Acf6f51272", "image": "http://39.105.213.120/thumbnail/19.jpg", "played": 597, "playing": 178, "remark": "ullamco", "title": "起明目或写适"}
+    }
 	// onPress = () => {
 	// 	const { navigation } = this.props;
 	// 	navigation.navigate('Detail', {
 	// 		id: 200,
 	// 	});
-	// };
+    // };
+    
+    // FlatList 优化 keyExtractor , 帮助组件生成 不重复的 KEY, key 的作用 检查生成的 Item 变化的位置.精准检查,减少重新渲染的开销.
+    keyExtractor = (item: IChannel) => {
+         return item.id;
+    }
 
-	// FlatList 优化 keyExtractor , 帮助组件生成 不重复的 KEY, key 的作用 检查生成的 Item 变化的位置.精准检查,减少重新渲染的开销.
-	keyExtractor = (item: IChannel) => {
-		return item.id;
-	};
 
 	renderItem = ({ item }: ListRenderItemInfo<IChannel>) => {
-		// 5.加链接; 添加 onPress={this.onPress}, 上面一个函数就是 onPress 方法, 连接到详情页的.
-		return <ChannelItem data={item} onPress={this.onPress} />;
-		/**
-		 * return <ChannelItem data={item} onPress={() => {this.onPress(item)}} />;
-		 * 上面这句的 功能跟前面的功能一样,也能打出 data, 不同点就是, 这个组件每循环一次, onPress 也会生产一个新的函数.
-		 * 会增加内存负担, 而且 ChannelItem 组件每次接受的 onPress 函数都不一样.
-		 *
-		 * PureComponent
-		 * 父组件每次渲染, 子组件会必须跟着渲染, 如果子组件逻辑独立,可以不渲染的. 可以调用 React.PureComponent
-		 */
+        // 5.加链接; 添加 onPress={this.onPress}, 上面一个函数就是 onPress 方法, 连接到详情页的.
+        return <ChannelItem data={item} onPress={this.onPress} />;
+        /**
+         * return <ChannelItem data={item} onPress={() => {this.onPress(item)}} />;
+         * 上面这句的 功能跟前面的功能一样,也能打出 data, 不同点就是, 这个组件每循环一次, onPress 也会生产一个新的函数. 
+         * 会增加内存负担, 而且 ChannelItem 组件每次接受的 onPress 函数都不一样.
+         * 
+         * PureComponent
+         * 父组件每次渲染, 子组件会必须跟着渲染, 如果子组件逻辑独立,可以不渲染的. 可以调用 React.PureComponent
+         */
 	};
 
 	/**
@@ -105,13 +95,12 @@ class Home extends React.Component<IProps, IState> {
 	// 这个 header 我们下面调用它的时候, 是真正调用的是 header 函数
 	// 在 header中返回一个 View, 里面直接插入 2 个组件,轮播图,和 猜你喜欢.
 	get header() {
+		const { carousels } = this.props;
 		return (
 			<View>
 				{/* // ⑩② 加入动态数据 yapi; 把数据传入下面这个组件里, 再到 Carousel.tsx 里定义一个接口, IProps */}
-				<Carousel />
-				<View style={styles.backgroundView}>
-					<Guess />
-				</View>
+				<Carousel data={carousels} />
+				<Guess />
 			</View>
 		);
 	}
@@ -132,22 +121,23 @@ class Home extends React.Component<IProps, IState> {
 				this.setState({
 					refreshing: false,
 				});
-			},
+			}
 		});
 
 		// // 6.下拉刷新; (3)修改刷新状态为 false. 这个 false 状态不能在 aciton 一发起就改变状态,应该等 action 执行完再改状态.
 		// this.setState({
 		// 	refreshing: false,
 		// });
-	};
+		
+	}
 
-	// 2.上拉加载更多.
+	// 2.上拉加载更多. 
 	onEndReached = () => {
 		// console.log('加载更多...');
 		// 3.上拉加载更多; 调用 Action 内容换了就是,没有追加功能. 转 home.ts 修改,
 		// 17.上拉加载更多; 判断能否加载更多;
 		const { dispatch, loading, hasMore } = this.props;
-		if (loading || !hasMore) {
+		if(loading || !hasMore) {
 			return;
 		}
 
@@ -156,89 +146,60 @@ class Home extends React.Component<IProps, IState> {
 			// 4.上拉加载更多;  我们要传个参数, 判断是刷新, 还是加载跟多. loadMore: true,
 			payload: {
 				loadMore: true,
-			},
+			}
 		});
-	};
-
-	// 2.设置滚动上去渐变背景色消失; 滚动事件监听, 真正需要的是一个状态
-	onScroll = ({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
-		const offsetY = nativeEvent.contentOffset.y; // 滚动的高度.
-		// console.log(offsetY);
-		// 滚动的高度 < 轮播图的高度(180).  true;
-		// 开始时, 都是 true = true;  newGradientVisible !== gradientVisible 只有不等于的时候执行 dispatch
-		// 当 offsetY = slideHeight 时, 就是 newGradientVisible = false,大于等于 180, 这时就是 true=false, 再执行dispatch, 就把 false 赋值给了 gradientVisible=false,隐藏背景, 成了 false = false; 
-		// 当 offsetY = slideHeight 时, newGradientVisible 为 true 小于 180 时,false true, 执行 dipatch, 把 true 赋值给 gradientVisible= true ,又显示背景图.
-		let newGradientVisible = (offsetY-10) < slideHeight; // 3.设置滚动上去渐变背景色消失; slideHeight 在Carousel.tsx 文件里导出.
-
-		const {dispatch, gradientVisible} = this.props; // 4.设置滚动上去渐变背景色消失; gradientVisible要再 Models -> home.ts 定义个默认值true. gradientVisible: boolean; 
-		
-		// console.log(newGradientVisible,gradientVisible); // true true; true false; false false
-
-		if(newGradientVisible !== gradientVisible) { // true false 隐藏 或 false true 显示 执行下面的 dispatch ;  // true 显示渐变色组件. 如果现在的Y高度跟新的高度一样.
-			dispatch({
-				type: 'home/setState',
-				payload:{
-					gradientVisible: newGradientVisible, // 能拿到状态, 转 TopTabBarWrapper.tsx // 7.设置滚动上去渐变背景色消失;
-				}
-			})
-		}
-	};
+	}
 
 	// 18.上拉加载更多; 加提示; 能给出提示"正在加载..."; 不能给出提示"我是有底线的";
 	get footer() {
-		const { hasMore, loading, channels } = this.props;
-		if (!hasMore) {
-			return (
-				<View style={styles.load}>
-					<Text style={styles.loadText}>---我是有底线的---</Text>
-				</View>
-			);
+		const {hasMore, loading, channels} = this.props;
+		if(!hasMore) {
+			return <View style={styles.load}><Text style={styles.loadText}>---我是有底线的---</Text></View>;
 		}
-		if (loading && hasMore && channels.length > 0) {
+		if(loading && hasMore && channels.length > 0) {
 			// console.log(channels.length, hasMore)
-			return (
-				<View style={styles.load}>
-					<Text style={styles.loadText}>正在加载中...</Text>
-				</View>
-			);
+			return <View style={styles.load}><Text style={styles.loadText}>正在加载中...</Text></View>;
 		}
 	}
 
 	// 2.channels 没有数据的时候, 空数组 空数据
 	get empty() {
 		// 判断: 因为第一次,data 就是个空数组
-		const { loading } = this.props;
-		if (loading) return; // 如果在加载中的话,直接 return 出去,不执行下面的.
+		const {loading} = this.props;
+		if(loading) return; // 如果在加载中的话,直接 return 出去,不执行下面的.
 		return (
 			<View style={styles.empty}>
 				<Text style={styles.loadText}>暂无数据</Text>
 			</View>
-		);
+		)
 	}
+
 
 	render() {
 		const { channels } = this.props; // 从 dva home 里取 num
 		// 7.下拉刷新;
-		const { refreshing } = this.state;
+		const {refreshing} = this.state;
 		return (
 			// 9 首页列表
 			<FlatList
 				ListHeaderComponent={this.header}
-				data={channels} //  3.channels 没有数据的时候, 空数组 空数据; 改成空数组测试下.data={[]]}
-				renderItem={this.renderItem}
-				keyExtractor={this.keyExtractor}
+				data={channels} //  3.channels 没有数据的时候, 空数组 空数据; 改成空数组测试下.data={[]]} 
+                renderItem={this.renderItem}
+				keyExtractor={ this.keyExtractor}
+				
 				// 1.下拉刷新
-				onRefresh={this.onRefresh} // onRefresh 不能单独使用, 要refreshing={true}
+				onRefresh={ this.onRefresh } // onRefresh 不能单独使用, 要refreshing={true}
 				refreshing={refreshing} // 8.下拉刷新; 值true 改为 refreshing ,{true}=>{refreshing}, 测试 能刷新. 如果看不到效果,可以到 yapi 列表 高级MOCK 脚本 开 mock 脚本输入: delay=3000 就是延迟 3 秒.拖到那个组件等待着看.
+
 				// 1.上拉加载更多.
 				onEndReached={this.onEndReached}
 				onEndReachedThreshold={0.2} // 比例
+
 				// 17.上拉加载更多; 加提示;
 				ListFooterComponent={this.footer}
+
 				// 1.channels 没有数据的时候, 空数组 空数据
 				ListEmptyComponent={this.empty}
-				// 1.设置滚动上去渐变背景色消失; 滚动事件监听, 真正需要的是一个状态
-				onScroll={this.onScroll}
 			/>
 		);
 	}
@@ -261,7 +222,7 @@ class Home extends React.Component<IProps, IState> {
 
 const styles = StyleSheet.create({
 	load: {
-		alignItems: 'center',
+		alignItems:'center',
 		paddingVertical: 10,
 	},
 	loadText: {
@@ -270,9 +231,6 @@ const styles = StyleSheet.create({
 	empty: {
 		alignItems: 'center',
 		paddingVertical: 100,
-	},
-	backgroundView:{
-		backgroundColor:'#f1f1f1'
 	},
 });
 

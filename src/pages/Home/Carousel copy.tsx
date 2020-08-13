@@ -1,78 +1,55 @@
 /**
  * 轮播图
- *
+ * 
  * import { ICarousel } from '@/models/home';
- *
+ * 
  * 读取的是 home 里的 YApi 里的 图片 动态 数据.
- *
+ * 
  */
-import { RootState } from '@/models';
 import { ICarousel } from '@/models/home';
 import { hp, viewportWidth, wp } from '@/utils';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import SnapCarousel, { AdditionalParallaxProps, Pagination, ParallaxImage } from 'react-native-snap-carousel';
-import { connect, ConnectedProps } from 'react-redux';
-
-
-const mapStateToProps = ({ home }: RootState) => ({
-	data: home.carousels,
-	activeCarouselIndex: home.activeCarouselIndex,
-});
-
-const connector = connect(mapStateToProps);
-
-type ModelState = ConnectedProps<typeof connector>;
-
-interface IProps extends ModelState {}
 
 // ⑩③ 加入动态数据 yapi; 定义一个接口 IProps, 下面的 data 可以不要了
-// interface IProps {
-// 	data: ICarousel[];
-// }
+interface IProps {
+	data: ICarousel[];
+}
 
 // 轮播图的宽度:
 const sliderWidth = viewportWidth;
 
-const slideWidth = wp(92); // 图片宽度
-export const slideHeight = hp(26); // 图片高度 ; // 2.设置滚动上去渐变背景色消失; 导出 供后面这个用. 
+const sideWidth = wp(92); // 图片宽度
+const sideHeight = hp(20); // 图片高度
 
 const itemWidth = wp(92) + wp(4) * 2; // 滚动的整个 item宽度= 图片宽度 + 2 边边距
 
 class Carousel extends React.Component<IProps> {
 	// ⑩④ 加入动态数据 yapi; IProps做为泛型,传进来.
 	// ④步: 显示的圆点
-	// state = {
-	// 	activeSlide: 0,
-	// };
-
-	// activeCarouselIndex显示的圆点的状态,数据从 home.ts 里取. 不报错在这个组件内.
-
+	state = {
+		activeSlide: 0,
+	};
 	// ③步: 显示的圆点
 	onSnapToItem = (index: number) => {
 		// 这个onSnapToItem 函数,有个参数, index
-		// this.setState({
-		// 	activeSlide: index,
-		// });
-		const { dispatch } = this.props;
-		dispatch({
-			type: 'home/setState',
-			payload: {
-				activeCarouselIndex: index,
-			},
+		this.setState({
+			activeSlide: index,
 		});
 	};
 
 	// 小圆点状态(组件), 把它当成一个变量,一个属性来使用
 	get pagaination() {
 		// ⑥步: 显示的圆点 this state 获取某一个图片
-		const { data, activeCarouselIndex } = this.props;
-		// const { data } = this.props; // ⑩⑧ 加入动态数据 yapi; data 从 props 取.
+		const { activeSlide } = this.state;
+		const { data } = this.props; // ⑩⑧ 加入动态数据 yapi; data 从 props 取.
 		return (
 			<View style={styles.paginationWrapper}>
 				<Pagination
-					activeDotIndex={activeCarouselIndex} // ①显示的圆点: 当前显示的哪张图的圆点.
-					dotsLength={data.length} // 圆点个数
+					activeDotIndex={activeSlide} // ①显示的圆点: 当前显示的哪张图的圆点.
+					
+					dotsLength = {data.length} // 圆点个数
 					inactiveDotScale={0.7} // 不是当前的显示圆点 大小的比例放大一点点
 					inactiveDotOpacity={0.4} // 不是当前的显示圆点 透明度
 					// styles
@@ -83,7 +60,7 @@ class Carousel extends React.Component<IProps> {
 			</View>
 		);
 	}
-  
+
 	// 滚动图片 (组件)
 	renderItem = (
 		{ item }: { item: ICarousel }, // ⑩⑥ 加入动态数据 yapi;  item string 类型改为 ICarousel
@@ -93,7 +70,7 @@ class Carousel extends React.Component<IProps> {
 		// 视差图片 ParallaxImage(上面改为下面这句)
 		return (
 			<ParallaxImage
-				source={{ uri: item.image }} // ⑩⑦  加入动态数据 yapi;  item.image; // 如果传的是网络的图片,必须定义他的宽高.
+				source={{ uri: item.image }} // ⑩⑦ 加入动态数据 yapi;  item.image; // 如果传的是网络的图片,必须定义他的宽高.
 				style={styles.image}
 				containerStyle={styles.imageContainer}
 				spinnerColor="rgba(0, 0, 0, .25)" // 图片加载中的颜色
@@ -129,12 +106,13 @@ class Carousel extends React.Component<IProps> {
 const styles = StyleSheet.create({
 	// 视差图片 ParallaxImage
 	imageContainer: {
-		width: slideWidth,
-		height: slideHeight,
+		width: sideWidth,
+		height: sideHeight,
 		marginLeft: 'auto',
 		marginRight: 'auto',
 		borderRadius: 8,
-		marginTop: 10,
+		marginBottom:6,
+		marginTop:12,
 	},
 	// 包圆点的块,跟图片一样大的区域
 	paginationWrapper: {
@@ -167,4 +145,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default connector(Carousel);
+export default Carousel;

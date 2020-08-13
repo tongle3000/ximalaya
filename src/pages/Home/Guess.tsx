@@ -115,7 +115,8 @@ const styles = StyleSheet.create({
 	guessContainer: {
 		backgroundColor: '#fff',
 		borderRadius: 8,
-		margin:6,
+		marginTop: 12,
+		marginBottom:6,
         marginLeft:16,
         marginRight:16,
 		padding: 9,

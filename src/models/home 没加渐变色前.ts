@@ -46,14 +46,12 @@ export interface IPagination {
 
 
 // Reducer
-export interface HomeState {
+interface HomeState {
 	carousels: ICarousel[]; // ③ 加入动态数据 yapi; 第四步,定义这个的类型 包括哪些属性.
-	activeCarouselIndex: number; // 1.activeCarouselIndex 修改显示的圆点的状态(当前轮播图下标),数据从 home.ts 里取. 不报错在这个组件内.
 	guess: IGuess[]; // ③ 猜你喜欢模块
 	channels: IChannel[]; // ③首页列表
 	// isTransition: boolean;
 	pagination: IPagination; // 10.上拉加载更多;
-	gradientVisible: boolean; // 4.设置滚动上去渐变背景色消失; gradientVisible要再 Models -> home.ts 定义个默认值. 
 }
 
 
@@ -86,7 +84,6 @@ interface HomeModel extends Model {
 const initialState: HomeState = {
 	// num: 0,
 	carousels: [], // ⑦ 加入动态数据 yapi;  轮播图初始值, 我们给个空的数组.
-	activeCarouselIndex: 0, // 2.activeCarouselIndex 修改显示的圆点的状态(当前轮播图下标),数据从 home.ts 里取. 不报错在这个组件内.
 	// loading: false, // 添加个加载状态, 默认是 false, 所以可以注释掉.
 	guess: [], // ⑤ 猜你喜欢模块
 	channels: [], // ⑤ 首页列表
@@ -96,7 +93,6 @@ const initialState: HomeState = {
 		total: 0,
 		hasMore: true, // true 设置可加载
 	},
-	gradientVisible: true, // 5.设置滚动上去渐变背景色消失; gradientVisible要再 Models -> home.ts 定义个默认值.
 };
 
 // 延迟函数, 模拟异步的.
