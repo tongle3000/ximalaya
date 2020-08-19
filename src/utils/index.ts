@@ -1,4 +1,6 @@
+import { NavigationState } from '@react-navigation/native';
 import { Dimensions } from 'react-native';
+
 
 /**
  * @param Dimensions 
@@ -28,5 +30,17 @@ function hp(percentage: number) {
 	return Math.round(value); // 四舍五入;
 }
 
+// 10.10-10 根据我的分类,动态生成标签导航器 和 model;  目前供 TopTabBarWrapper.tsx 使用.
+function getActiveRouteName(state: NavigationState) {
+	let route;
+	route = state.routes[state.index];
+
+	// while, 判断 有没有多层级 route
+	while(route.state && route.state.index) {
+		route = route.state.routes[route.state.index];
+	}
+	return route.name;
+}
+
 // 再导出去, 
-export { viewportWidth, viewportHeight, wp, hp };
+export { viewportWidth, viewportHeight, wp, hp, getActiveRouteName };

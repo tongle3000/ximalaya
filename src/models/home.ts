@@ -47,6 +47,7 @@ export interface IPagination {
 
 // Reducer
 export interface HomeState {
+	
 	carousels: ICarousel[]; // ③ 加入动态数据 yapi; 第四步,定义这个的类型 包括哪些属性.
 	activeCarouselIndex: number; // 1.activeCarouselIndex 修改显示的圆点的状态(当前轮播图下标),数据从 home.ts 里取. 不报错在这个组件内.
 	guess: IGuess[]; // ③ 猜你喜欢模块
@@ -60,7 +61,6 @@ export interface HomeState {
 // 声明接口
 interface HomeModel extends Model {
 	namespace: 'home'; // namespace: string;
-
 	state: HomeState; // ③ 加入动态数据 yapi;
 
 	// reducers?: ReducersMapObject | ReducersMapObjectWithEnhancer;

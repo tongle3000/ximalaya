@@ -1,5 +1,6 @@
 import { DvaLoadingState } from 'dva-loading-ts';
 
+import category from './category';
 import home from './home';
 import homeNum from './homeNum';
 
@@ -18,12 +19,15 @@ import homeNum from './homeNum';
  * 定义 model 类型
  */
 
-const models =[home,homeNum];
+const models =[home, homeNum, category];
 
 // 导出每个 model 的 类型
 export type RootState = {
     home: typeof home.state;
     homeNum: typeof homeNum.state;
+    category: typeof category.state;
     loading: DvaLoadingState;
+} & {
+    [key: string]: typeof home.state;
 }
 export default models;

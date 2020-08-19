@@ -44,12 +44,14 @@ static void InitializeFlipper(UIApplication *application) {
 
   // 下面这块 自己加的(网上);  
   // 苹果 IOS 报: WARN  RCTBridge required dispatch_sync to load RCTDevLoadingView. This may lead to deadlocks
-  #if RCT_DEV
-    [bridge moduleForClass:[RCTDevLoadingView class]];
-  #endif
-    RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                      moduleName:@"ximalaya"
-                                                  initialProperties:nil];     
+  // 上面有这个,,加下面这个,,运行 yarn ios 报错: error: use of undeclared identifier 'RCTDevLoadingView' [bridge moduleForClass:[RCTDevLoadingView class]];
+  
+  // #if RCT_DEV
+  //   [bridge moduleForClass:[RCTDevLoadingView class]];
+  // #endif
+  //   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+  //                                                     moduleName:@"ximalaya"
+  //                                                 initialProperties:nil];     
 
 
 

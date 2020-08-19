@@ -13,6 +13,7 @@ import { Image } from 'react-native';
 import { connect, ConnectedProps } from 'react-redux';
 
 
+
 const mapStateToProps = ({ home }: RootState) => {
 	return {
 		guess: home.guess,
@@ -25,7 +26,11 @@ const connector = connect(mapStateToProps);
 // 要发起个 action, 这个组件加载完后执行 ③ ; 这句是获取 dispatch
 type ModelState = ConnectedProps<typeof connector>;
 
-class Guess extends React.PureComponent<ModelState> {
+interface IProps extends ModelState {
+	namespace: string;
+}
+
+class Guess extends React.PureComponent<IProps> {
 	// ModelState 是获取 dispatch
 	// 要发起个 action, 这个组件加载完后执行 ①
 	componentDidMount() {
@@ -33,10 +38,11 @@ class Guess extends React.PureComponent<ModelState> {
 	}
 	// 要发起个 action, 这个组件加载完后执行 ②
 	fetch = () => {
-		const { dispatch } = this.props; //
+		const { dispatch, namespace } = this.props; //
+		console.log(namespace);
 		dispatch({
 			// dispatch 作业,发起一个 action
-			type: 'home/fetchGuess', // 对象 action
+			type: namespace + '/fetchGuess', // 对象 action
 		});
 	};
 

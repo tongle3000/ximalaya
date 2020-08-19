@@ -1,6 +1,8 @@
 import { RootState } from '@/models';
 import { IChannel } from '@/models/home';
 import { RootStackNavigation } from '@/navigator';
+import { HomeParamList } from '@/navigator/HomeTabs';
+import { RouteProp } from '@react-navigation/native';
 import React from 'react';
 import {
     Button,
@@ -20,14 +22,29 @@ import ChannelItem from './ChannelItem';
 import Guess from './Guess';
 
 // dva ; 正在加载..:loading,loading.effects['home/asyncAdd'];
-const mapStateToProps = ({ home, loading }: RootState) => ({
-	//state 改成 对象结构的方法 {home}
-	carousels: home.carousels, // ⑩① 加入动态数据 yapi;
-	loading: loading.effects['home/fetchChannels'], // 跟异步操作的 type 值是一样的
-	channels: home.channels, // 7 首页列表
-	hasMore: home.pagination.hasMore, // 17.上拉加载更多; 引入,下面加载的异步操作,要判断是否能加载跟多.
-	gradientVisible: home.gradientVisible, // 6.设置滚动上去渐变背景色消失; gradientVisible要再 Models -> home.ts 定义个默认值.
-});
+// const mapStateToProps = ({ home, loading }: RootState) => ({
+// 	//state 改成 对象结构的方法 {home}
+// 	carousels: home.carousels, // ⑩① 加入动态数据 yapi;
+// 	loading: loading.effects['home/fetchChannels'], // 跟异步操作的 type 值是一样的
+// 	channels: home.channels, // 7 首页列表
+// 	hasMore: home.pagination.hasMore, // 17.上拉加载更多; 引入,下面加载的异步操作,要判断是否能加载跟多.
+// 	gradientVisible: home.gradientVisible, // 6.设置滚动上去渐变背景色消失; gradientVisible要再 Models -> home.ts 定义个默认值.
+// });
+
+// 9.10-10 根据我的分类,动态生成标签导航器 和 model; 增加第二个参数props里的{route}. home 改成 modelState, state.loading;
+const mapStateToProps = (state: RootState, {route}: {route:RouteProp<HomeParamList, string>}) => {
+	const {namespace} = route.params;
+	const modelState = state[namespace];
+	return{
+		//state 改成 对象结构的方法 {home}
+		namespace, // 将它也传到 props 中,等会其他地方都要用到; 下面所有的 home 都要改成 namespace + '/
+		carousels: modelState.carousels, // ⑩① 加入动态数据 yapi;
+		channels: modelState.channels, // 7 首页列表
+		hasMore: modelState.pagination.hasMore, // 17.上拉加载更多; 引入,下面加载的异步操作,要判断是否能加载跟多.
+		gradientVisible: modelState.gradientVisible, // 6.设置滚动上去渐变背景色消失; gradientVisible要再 Models -> hoe.ts 定义个默认值.
+		loading: state.loading.effects[namespace + '/fetchChannels'], // 跟异步操作的 type 值是一样的
+	}
+};
 
 // connect 帮我们把 models 里定义的 state 映射到 这个页面来.
 const connector = connect(mapStateToProps);
@@ -57,13 +74,13 @@ class Home extends React.Component<IProps, IState> {
 
 	// ⑩ 加入动态数据 yapi;
 	componentDidMount() {
-		const { dispatch } = this.props;
+		const { dispatch,namespace } = this.props;
 		dispatch({
-			type: 'home/fetchCarousels', // fetchCarousels 是 models -> home.ts 里定义的 action
+			type: namespace + '/fetchCarousels', // fetchCarousels 是 models -> home.ts 里定义的 action
 		});
 		// 8 首页列表
 		dispatch({
-			type: 'home/fetchChannels',
+			type: namespace + '/fetchChannels',
 		});
 	}
 	// 6.加链接;  onPress方法要改.
@@ -105,12 +122,13 @@ class Home extends React.Component<IProps, IState> {
 	// 这个 header 我们下面调用它的时候, 是真正调用的是 header 函数
 	// 在 header中返回一个 View, 里面直接插入 2 个组件,轮播图,和 猜你喜欢.
 	get header() {
+		const {namespace} = this.props;
 		return (
 			<View>
 				{/* // ⑩② 加入动态数据 yapi; 把数据传入下面这个组件里, 再到 Carousel.tsx 里定义一个接口, IProps */}
 				<Carousel />
 				<View style={styles.backgroundView}>
-					<Guess />
+					<Guess namespace={namespace} />
 				</View>
 			</View>
 		);
@@ -123,9 +141,9 @@ class Home extends React.Component<IProps, IState> {
 			refreshing: true,
 		});
 		// 6.下拉刷新; (2)获取数据. 在componentDidMount 里的代码, 只刷新列表 channels
-		const { dispatch } = this.props;
+		const { dispatch,namespace } = this.props;
 		dispatch({
-			type: 'home/fetchChannels',
+			type: namespace + '/fetchChannels',
 			// 9 下拉刷新; 传递个回调函数 callback. 但是这个 dispatch 改了,就要到 home.ts 里改定义的带 callback
 			callback: () => {
 				// 6.下拉刷新; (3)修改刷新状态为 false. 这个 false 状态不能在 aciton 一发起就改变状态,应该等 action 执行完, 数据加载好,再改状态.
@@ -146,13 +164,13 @@ class Home extends React.Component<IProps, IState> {
 		// console.log('加载更多...');
 		// 3.上拉加载更多; 调用 Action 内容换了就是,没有追加功能. 转 home.ts 修改,
 		// 17.上拉加载更多; 判断能否加载更多;
-		const { dispatch, loading, hasMore } = this.props;
+		const { dispatch, loading, hasMore,namespace } = this.props;
 		if (loading || !hasMore) {
 			return;
 		}
 
 		dispatch({
-			type: 'home/fetchChannels',
+			type: namespace + '/fetchChannels',
 			// 4.上拉加载更多;  我们要传个参数, 判断是刷新, 还是加载跟多. loadMore: true,
 			payload: {
 				loadMore: true,
@@ -170,13 +188,13 @@ class Home extends React.Component<IProps, IState> {
 		// 当 offsetY = slideHeight 时, newGradientVisible 为 true 小于 180 时,false true, 执行 dipatch, 把 true 赋值给 gradientVisible= true ,又显示背景图.
 		let newGradientVisible = (offsetY-10) < slideHeight; // 3.设置滚动上去渐变背景色消失; slideHeight 在Carousel.tsx 文件里导出.
 
-		const {dispatch, gradientVisible} = this.props; // 4.设置滚动上去渐变背景色消失; gradientVisible要再 Models -> home.ts 定义个默认值true. gradientVisible: boolean; 
+		const {dispatch, gradientVisible, namespace} = this.props; // 4.设置滚动上去渐变背景色消失; gradientVisible要再 Models -> home.ts 定义个默认值true. gradientVisible: boolean; 
 		
 		// console.log(newGradientVisible,gradientVisible); // true true; true false; false false
 
 		if(newGradientVisible !== gradientVisible) { // true false 隐藏 或 false true 显示 执行下面的 dispatch ;  // true 显示渐变色组件. 如果现在的Y高度跟新的高度一样.
 			dispatch({
-				type: 'home/setState',
+				type: namespace + '/setState',
 				payload:{
 					gradientVisible: newGradientVisible, // 能拿到状态, 转 TopTabBarWrapper.tsx // 7.设置滚动上去渐变背景色消失;
 				}
