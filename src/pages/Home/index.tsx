@@ -1,5 +1,5 @@
 import { RootState } from '@/models';
-import { IChannel } from '@/models/home';
+import { IChannel, IGuess } from '@/models/home';
 import { RootStackNavigation } from '@/navigator';
 import { HomeParamList } from '@/navigator/HomeTabs';
 import { RouteProp } from '@react-navigation/native';
@@ -84,9 +84,11 @@ class Home extends React.Component<IProps, IState> {
 		});
 	}
 	// 6.加链接;  onPress方法要改.
-	onPress = (data: IChannel) => {
-		console.log(data);
-		// console.log(data); 打印: {"id": "dd4cE8Fd-cA2B-CC70-88fA-B8Acf6f51272", "image": "http://39.105.213.120/thumbnail/19.jpg", "played": 597, "playing": 178, "remark": "ullamco", "title": "起明目或写适"}
+
+	// 这个链接方法供 2 个数组使用了, 所以,这个 data 要兼容 2 个数组的类型;
+	goAlbum = (data: IChannel | IGuess) => {
+		const {navigation} = this.props;
+		navigation.navigate('Album', {item: data});
 	};
 	// onPress = () => {
 	// 	const { navigation } = this.props;
@@ -102,7 +104,7 @@ class Home extends React.Component<IProps, IState> {
 
 	renderItem = ({ item }: ListRenderItemInfo<IChannel>) => {
 		// 5.加链接; 添加 onPress={this.onPress}, 上面一个函数就是 onPress 方法, 连接到详情页的.
-		return <ChannelItem data={item} onPress={this.onPress} />;
+		return <ChannelItem data={item} onPress={this.goAlbum} />;
 		/**
 		 * return <ChannelItem data={item} onPress={() => {this.onPress(item)}} />;
 		 * 上面这句的 功能跟前面的功能一样,也能打出 data, 不同点就是, 这个组件每循环一次, onPress 也会生产一个新的函数.
@@ -128,7 +130,7 @@ class Home extends React.Component<IProps, IState> {
 				{/* // ⑩② 加入动态数据 yapi; 把数据传入下面这个组件里, 再到 Carousel.tsx 里定义一个接口, IProps */}
 				<Carousel />
 				<View style={styles.backgroundView}>
-					<Guess namespace={namespace} />
+					<Guess namespace={namespace} goAlbum={this.goAlbum} />
 				</View>
 			</View>
 		);

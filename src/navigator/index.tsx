@@ -1,16 +1,19 @@
 import BottomTabs from '@/navigator/BottomTabs';
+import Album from '@/pages/Album';
 import Category from '@/pages/Category';
 import Detail from '@/pages/Detail';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, RouteProp } from '@react-navigation/native';
 import {
     CardStyleInterpolators,
     createStackNavigator,
     HeaderStyleInterpolators,
+    HeaderTitle,
     StackNavigationProp,
     TransitionPresets,
 } from '@react-navigation/stack';
 import React from 'react';
 import { Platform, StatusBar, StyleSheet } from 'react-native';
+import Animated from 'react-native-reanimated';
 
 // type 类型别名: 相当于重命名,并给它定义独有的属性, 起到一个约束的作用. 约束泛型的类型.
 export type RootStackParamList = {
@@ -18,6 +21,13 @@ export type RootStackParamList = {
         screen?: string;
     };
     Category: undefined;
+    Album: {
+        item:{
+            id: string;
+            title: string;
+            image: string;
+        }
+    };
     Detail: {
         id: number;
     };
@@ -26,6 +36,29 @@ let Stack = createStackNavigator<RootStackParamList>();
 
 export type RootStackNavigation = StackNavigationProp<RootStackParamList>;
 
+// 这个函数式可以拿到一些参数的, route
+function getAlbumOptions({route}: {route:RouteProp<RootStackParamList,'Album'>}) {
+    return{// 返回的是对象,大括号
+        headerTitle: route.params.item.title, // headerTitle / title 都可以;
+        headerTransparent: true, // headerTitle 背景透明;
+        headerTitleStyle: {  
+            opacity:0, // 标题的透明度设为 0;
+        },
+        headerBackground: () => {
+            return (
+                <Animated.View style={styles.headerBackgound} />
+            )
+        }
+    } 
+}
+
+const styles= StyleSheet.create({
+    headerBackgound:{
+        flex:1,
+        backgroundColor: '#fff',
+        opacity:0, // 背景 0
+    }
+});
 
 class Navigator extends React.Component {
     render() {
@@ -81,6 +114,11 @@ class Navigator extends React.Component {
                         options={{ title: '分类'}}
                         name="Category"
                         component={Category}
+                    />
+                    <Stack.Screen
+                        options={getAlbumOptions}
+                        name="Album"
+                        component={Album}
                     />
                     <Stack.Screen
                         options={{ title: '详情页', headerShown: false, }}

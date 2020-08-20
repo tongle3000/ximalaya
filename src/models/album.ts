@@ -1,5 +1,6 @@
 /**
- * 频道album model
+ * 频道album model 
+ * 别忘了,加入到 models 的 index.ts 里
  */
 import axios from 'axios';
 import { Effect, Model } from 'dva-core-ts';
@@ -14,7 +15,7 @@ interface IAuthor {
 }
 
 // list 节目
-interface IProgram {
+export interface IProgram {
 	id: string;
 	title: string;
 	playVolume: number;

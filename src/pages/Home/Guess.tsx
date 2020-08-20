@@ -28,6 +28,7 @@ type ModelState = ConnectedProps<typeof connector>;
 
 interface IProps extends ModelState {
 	namespace: string;
+	goAlbum: (item: IGuess ) => void;
 }
 
 class Guess extends React.PureComponent<IProps> {
@@ -65,13 +66,14 @@ class Guess extends React.PureComponent<IProps> {
 	// 返回的是个组件, 这里使用 View, 图片必须制定宽高.
 	// }
 	renderItem = ({ item }: { item: IGuess }) => {
+		const {goAlbum} = this.props;
 		return (
 			// <TouchableOpacity style ={styles.item} onPress={() => {alert('dian')}}>
 			//     <Image source = {{uri: item.image}} style={ styles.image} />
 			// 	<Text numberOfLines={2}>{item.title}</Text>
 			//     {/* numberOfLines={2} 最多显示 2 行. */}
 			// </TouchableOpacity>
-			<Touchable style={styles.item} onPress={()=>console.log(item)}>
+			<Touchable style={styles.item} onPress={() => goAlbum(item)}>
 				<Image source={{ uri: item.image }} style={styles.image} />
 				<Text numberOfLines={2}>{item.title}</Text>
 				{/* numberOfLines={2} 最多显示 2 行. */}
