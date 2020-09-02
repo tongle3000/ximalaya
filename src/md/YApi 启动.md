@@ -11,3 +11,7 @@
         
 ##  3. node vendors/server/app.js 
         ( 显示服务已启动, 我们浏览器打开那个网址 登录进去.)
+
+
+        admin@admin.com
+        ymfe.org

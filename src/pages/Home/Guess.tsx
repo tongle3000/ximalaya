@@ -8,8 +8,9 @@ import Touchable from '@/components/Touchable';
 import { RootState } from '@/models';
 import { IGuess } from '@/models/home';
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { Animated, Button, FlatList, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'react-native';
+import { Easing, interpolate } from 'react-native-reanimated';
 import { connect, ConnectedProps } from 'react-redux';
 
 
@@ -30,8 +31,12 @@ interface IProps extends ModelState {
 	namespace: string;
 	goAlbum: (item: IGuess ) => void;
 }
-
 class Guess extends React.PureComponent<IProps> {
+	n = 0;
+	state = {
+		rotate: new Animated.Value(0)
+	};
+
 	// ModelState 是获取 dispatch
 	// 要发起个 action, 这个组件加载完后执行 ①
 	componentDidMount() {
@@ -45,6 +50,13 @@ class Guess extends React.PureComponent<IProps> {
 			// dispatch 作业,发起一个 action
 			type: namespace + '/fetchGuess', // 对象 action
 		});
+		this.n += 6.28
+		Animated.timing(this.state.rotate, {
+			toValue:this.n,
+			duration: 700,
+			useNativeDriver: true,
+			// easing: Easing.inOut(Easing.ease)
+		  }).start();
 	};
 
 
@@ -92,7 +104,10 @@ class Guess extends React.PureComponent<IProps> {
 					</View>
 					<View style={styles.hdRight}>
 						<Text style={styles.more}>更多</Text>
+						
 						<IconFont name="icon-more" color={'#666'} size={16} />
+						
+
 					</View>
 				</View>
 
@@ -106,13 +121,31 @@ class Guess extends React.PureComponent<IProps> {
 					keyExtractor={this.keyExtractor}
 				/>
 				<Touchable style={styles.changeGuess} onPress={this.fetch}>
-					
-					<IconFont
-						color={'red'}
-						name="icon-shuaxin2"
-						size={14}
-					/>
+					<Animated.View
+						style={[
+							// styles.fadingContainer,
+							{
+								transform: [{
+									// Y 轴 平移
+									// translateY: this.state.fadeAnim
+									// 	.interpolate({
+									// 		inputRange: [0, 1],
+									// 		outputRange: [150, 0]  // 0 : 150, 0.5 : 75, 1 : 0	
+									// 	}),
+									
+									rotate: this.state.rotate,
+								}],
+							}
+						]}
+					>
+						<IconFont
+							color={'red'}
+							name="icon-shuaxin2"
+							size={14}
+						/>
+					</Animated.View>
 					<Text style={styles.hyp}>换一批</Text>
+
 				</Touchable>
 			</View>
 		);
@@ -173,6 +206,12 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		padding: 10,
 	},
+	// fadingContainer: {
+	// 	paddingVertical: 0,
+	// 	paddingHorizontal: 0,
+	// 	backgroundColor: "powderblue",
+		
+	// },
 	hyp: {
 		color: '#666',
 		marginLeft: 7,

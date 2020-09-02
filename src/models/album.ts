@@ -22,6 +22,14 @@ export interface IProgram {
 	duration: string;
 	date: string;
 }
+export interface IAlbum {
+	id: string;
+	title: string;
+	playVolume: number;
+	duration: string;
+	date: string;
+}
+
 
 // 频道接口, 导出
 export interface IAlbumModelState {

@@ -19,7 +19,7 @@ class Introduction extends React.Component<ModelState> {
     
     render() {
         const {introduction} = this.props;
-        console.log('........',introduction);
+        // console.log('........',introduction);
         return(
             <View style={styles.container}><Text style={styles.content}>{introduction}</Text></View>
         )

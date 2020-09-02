@@ -130,4 +130,4 @@ class Navigator extends React.Component {
         );
     }
 }
-export default Navigator;
+export default Navigator; 

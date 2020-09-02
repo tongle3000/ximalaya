@@ -115,7 +115,7 @@ class BottomTabs extends React.Component<IProps> {
 					inactiveTintColor: '#333', // 初始色
 					activeTintColor: '#f86442',// 选中色
 				}}
-			>
+			>  
 				<Tab.Screen
 					name="HomeTabs"
 					component={HomeTabs}

@@ -52,7 +52,7 @@ class Album extends React.Component<IProps> {
                 <BlurView blurType="light" blurAmount={5} style={StyleSheet.absoluteFillObject} />
                 <View style={styles.leftView}>
                     <Image source={{uri:image}}  style={styles.thumnail} />
-                    <Image source={require('@/assets/001.png')}  style={styles.coverRight} />
+                    {/* <Image source={require('@/assets/001.png')}  style={styles.coverRight} />r */}
                 </View>
                 <View style={styles.rightView}>
                     <Text style={[styles.colorWhite, styles.title]}>{title}</Text>
