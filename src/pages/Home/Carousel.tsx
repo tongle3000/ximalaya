@@ -87,7 +87,7 @@ class Carousel extends React.Component<IProps> {
 	// 滚动图片 (组件)
 	renderItem = (
 		{ item }: { item: ICarousel }, // ⑩⑥ 加入动态数据 yapi;  item string 类型改为 ICarousel
-		parallaxProps?: AdditionalParallaxProps /*视差图片 ParallaxImage */,
+		parallaxProps?: AdditionalParallaxProps /*视差效果 ParallaxImage */,
 	) => {
 		// return <Image source ={{uri: item}} style={styles.image} />; // Image 是从 react-native 导入的
 		// 视差图片 ParallaxImage(上面改为下面这句)

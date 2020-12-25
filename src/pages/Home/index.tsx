@@ -143,7 +143,7 @@ class Home extends React.Component<IProps, IState> {
 			refreshing: true,
 		});
 		// 6.下拉刷新; (2)获取数据. 在componentDidMount 里的代码, 只刷新列表 channels
-		const { dispatch,namespace } = this.props;
+		const { dispatch, namespace } = this.props;
 		dispatch({
 			type: namespace + '/fetchChannels',
 			// 9 下拉刷新; 传递个回调函数 callback. 但是这个 dispatch 改了,就要到 home.ts 里改定义的带 callback

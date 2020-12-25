@@ -34,7 +34,7 @@ interface IProps extends ModelState {
 class Guess extends React.PureComponent<IProps> {
 	n = 0;
 	state = {
-		rotate: new Animated.Value(0)
+		fadeAnim: new Animated.Value(0)
 	};
 
 	// ModelState 是获取 dispatch
@@ -50,8 +50,8 @@ class Guess extends React.PureComponent<IProps> {
 			// dispatch 作业,发起一个 action
 			type: namespace + '/fetchGuess', // 对象 action
 		});
-		this.n += 6.28
-		Animated.timing(this.state.rotate, {
+		this.n += 1; //6.28
+		Animated.timing(this.state.fadeAnim, {
 			toValue:this.n,
 			duration: 700,
 			useNativeDriver: true,
@@ -120,9 +120,11 @@ class Guess extends React.PureComponent<IProps> {
 					numColumns={3} // 3 列
 					keyExtractor={this.keyExtractor}
 				/>
+				
 				<Touchable style={styles.changeGuess} onPress={this.fetch}>
 					<Animated.View
 						style={[
+							styles.hypIcon,
 							// styles.fadingContainer,
 							{
 								transform: [{
@@ -133,7 +135,11 @@ class Guess extends React.PureComponent<IProps> {
 									// 		outputRange: [150, 0]  // 0 : 150, 0.5 : 75, 1 : 0	
 									// 	}),
 									
-									rotate: this.state.rotate,
+									rotate: this.state.fadeAnim
+									.interpolate({
+										inputRange: [0, 1],
+										outputRange: ['0deg', '360deg']
+									}),
 								}],
 							}
 						]}
@@ -203,8 +209,14 @@ const styles = StyleSheet.create({
 	},
 	changeGuess: {
 		flexDirection: 'row',
-		justifyContent: 'center',
-		padding: 10,
+		justifyContent: 'center', // 元素 横向水平对齐
+		alignItems: 'center',     // 元素 横向水平对齐
+		paddingTop: 10,
+		paddingBottom: 10,
+		// backgroundColor:'green',
+		// height:14,
+		// marginTop: 10,
+		// marginBottom: 10,
 	},
 	// fadingContainer: {
 	// 	paddingVertical: 0,
@@ -212,9 +224,17 @@ const styles = StyleSheet.create({
 	// 	backgroundColor: "powderblue",
 		
 	// },
+	hypIcon: {
+		height: 14,
+		width: 14,
+		// backgroundColor:'#eee',
+		
+	},
 	hyp: {
 		color: '#666',
 		marginLeft: 7,
+		// backgroundColor:'#eee',
+
 	},
 
 });

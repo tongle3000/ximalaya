@@ -5,8 +5,8 @@ import { Button, Text, View } from 'react-native';
 import { connect, ConnectedProps } from 'react-redux';
 
 // dva ; 正在加载..:loading,loading.effects['home/asyncAdd'];
-const mapStateToProps= ({home, loading}: RootState) => ({ //state 改成 对象结构的方法 {home}
-    num: home.num,
+const mapStateToProps= ({homeNum, loading}: RootState) => ({ //state 改成 对象结构的方法 {home}
+    num: homeNum.num,
     loading: loading.effects['home/asyncAdd'], // 跟异步操作的 type 值是一样的
 });
 

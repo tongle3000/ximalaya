@@ -354,6 +354,7 @@
   * models -> index.ts 文件
         增加的代码:
         import {DvaLoadingState} from 'dva-loading-ts';
+        
         loading: DvaLoadingState;
 
         完整代码:

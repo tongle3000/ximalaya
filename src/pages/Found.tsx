@@ -2,6 +2,9 @@ import { RootStackNavigation } from '@/navigator';
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 
+import GroceryShoppingList from './temp/GroceryShoppingList';
+import SectionListBasics from './temp/SectionListBasics';
+
 type IProps = {
     navigation: RootStackNavigation;
 };
@@ -17,6 +20,8 @@ class Found extends React.Component<IProps> {
     render() {
         return (
             <View>
+                <SectionListBasics />
+                <GroceryShoppingList />
                 <Text>Found</Text>
                 <Button title="跳转到详情页1" onPress={this.onPress} />
             </View>
